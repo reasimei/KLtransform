@@ -120,7 +120,7 @@ plt.subplot(2,2,3)
 plot_scatter(transformed_data_discriminant, labels, "Discriminant Analysis")  # 绘制散点图
 
 
-# 绘制散点图
+# 绘制Fisher散点图
 def plot_scatter_liner(data, labels, title, w=None,w0=None):
     if w is not None:
         # 使用 Fisher 判别方向对数据进行投影
@@ -135,7 +135,7 @@ def plot_scatter_liner(data, labels, title, w=None,w0=None):
     plt.title(title)
     plt.yticks([])
 
-# Fisher 判别
+# 3.Fisher 判别
 def fisher_discriminant(data, labels):
     Sw,mean_vector = within_class_scatter_matrix(data, labels)
     Sb = between_class_scatter_matrix(data, labels)
@@ -145,7 +145,6 @@ def fisher_discriminant(data, labels):
     #w = np.dot(np.linalg.inv(Sw),(mean_vector[1]-mean_vector[0]))
     return w,mean_vector
 
-# Fisher 判别
 w,mean_vector = fisher_discriminant(all_data, labels)
 print("Fisher w=",w)
 w0 = -0.5 * np.dot(w,(mean_vector[0]+mean_vector[1]))
@@ -159,10 +158,6 @@ plt.show()
 discriminant_labels = classify(all_data, w,w0)
 
 # 计算准确率
-accuracy = np.mean(discriminant_labels == labels)
-print("Fisher discriminant accuracy:", accuracy)
-
-
 w10 = -0.5 * np.dot(w1,(mean_vector[0]+mean_vector[1]))
 w20 = -0.5 * np.dot(w2,(mean_vector[0]+mean_vector[1]))
 
@@ -175,3 +170,6 @@ print("PCA accuracy:", accuracy1)
 
 accuracy2 = np.mean(discriminant_labels2 == labels)
 print("考虑类别信息 accuracy:", accuracy2)
+
+accuracy = np.mean(discriminant_labels == labels)
+print("Fisher discriminant accuracy:", accuracy)
